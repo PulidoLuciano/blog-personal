@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Administración</title>
+    <link rel="stylesheet" href="/static/css/admin.css" />
+    <link rel="icon" type="image/svg+xml" href="/static/assets/images/logos/code.svg">
+</head>
+
+<body>
+    <nav class="admin-nav">
+        <h1>Panel de Administración</h1>
+        <ul>
+            <li><a href="/admin/personal">Información Personal</a></li>
+            <li><a href="/admin/articles">Artículos</a></li>
+            <li><a href="/admin/projects">Proyectos</a></li>
+        </ul>
+    </nav>
+    <main>
+        <h1>{{if .ID}}Editar{{else}}Nuevo{{end}} Proyecto</h1>
+
+        <form method="POST" action="{{if .ID}}/admin/projects/edit{{else}}/admin/projects/new{{end}}" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="{{.ID}}">
+
+            <label for="title">Título:</label>
+            <input type="text" name="title" id="title" value="{{.Title}}" required>
+
+            <label for="description">Descripción:</label>
+            <textarea name="description" id="description" rows="5">{{.Description}}</textarea>
+
+            <label for="url_repository">URL del Repositorio:</label>
+            <input type="url" name="url_repository" id="url_repository" value="{{.UrlRepository}}">
+
+            <label for="url_website">URL del Sitio Web:</label>
+            <input type="url" name="url_website" id="url_website" value="{{.UrlWebsite}}">
+
+            <label for="image">Imagen (JPG, PNG):</label>
+            <input type="file" name="image" id="image" accept="image/*">
+
+            <label for="is_hidden">¿Oculto?</label>
+            <input type="checkbox" name="is_hidden" id="is_hidden" {{if .IsHidden}}checked{{end}}>
+
+            <button type="submit" class="btn">Guardar</button>
+            <a href="/admin/projects" class="btn secondary">Cancelar</a>
+        </form>
+    </main>
+</body>
+
+</html>

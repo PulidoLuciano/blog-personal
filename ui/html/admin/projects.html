@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Administración</title>
+    <link rel="stylesheet" href="/static/css/admin.css" />
+    <link rel="icon" type="image/svg+xml" href="/static/assets/images/logos/code.svg">
+</head>
+
+<body>
+    <nav class="admin-nav">
+        <h1>Panel de Administración</h1>
+        <ul>
+            <li><a href="/admin/personal">Información Personal</a></li>
+            <li><a href="/admin/articles">Artículos</a></li>
+            <li><a href="/admin/projects">Proyectos</a></li>
+        </ul>
+    </nav>
+    <main>
+        <h1>Proyectos</h1>
+        <a href="/admin/projects/new" class="btn">Nuevo Proyecto</a>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Repositorio</th>
+                    <th>Sitio Web</th>
+                    <th>Oculto</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .}}
+                <tr>
+                    <td>{{.Title}}</td>
+                    <td><a href="{{.UrlRepository}}" target="_blank">Repo</a></td>
+                    <td><a href="{{.UrlWebsite}}" target="_blank">Web</a></td>
+                    <td>{{if .IsHidden}}Sí{{else}}No{{end}}</td>
+                    <td>
+                        <a href="/admin/projects/edit?id={{.ID}}" class="btn">Editar</a>
+                        <form method="POST" action="/admin/projects/delete" style="display:inline;">
+                            <input type="hidden" name="id" value="{{.ID}}">
+                            <button type="submit" class="btn danger">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+    </main>
+</body>
+
+</html>

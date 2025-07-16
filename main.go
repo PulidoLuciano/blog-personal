@@ -73,9 +73,17 @@ func main() {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/", handlers.HomeHandler(db))
+
+	// Admin
 	router.HandleFunc("/admin", admin.DashboardHandler)
 	router.HandleFunc("/admin/personal", admin.PersonalInfoGetHandler(db)).Methods("GET")
 	router.HandleFunc("/admin/personal", admin.PersonalInfoPostHandler(db)).Methods("POST")
+	router.HandleFunc("/admin/projects", admin.ProjectsList(db)).Methods("GET")
+	router.HandleFunc("/admin/projects/new", admin.ProjectForm(db)).Methods("GET")
+	router.HandleFunc("/admin/projects/new", admin.ProjectSave(db)).Methods("POST")
+	router.HandleFunc("/admin/projects/edit", admin.ProjectForm(db)).Methods("GET")
+	router.HandleFunc("/admin/projects/edit", admin.ProjectSave(db)).Methods("POST")
+	router.HandleFunc("/admin/projects/delete", admin.ProjectDelete(db)).Methods("POST")
 
 	fs := http.FileServer(http.Dir("ui/static/"))
 	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", fs))
