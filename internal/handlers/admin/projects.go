@@ -14,7 +14,7 @@ import (
 )
 
 var initialPath = "ui/"
-var folder = "static/assets/images/projects/"
+var folderProjects = "static/assets/images/projects/"
 
 func ProjectsList(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -82,7 +82,7 @@ func ProjectSave(db *sql.DB) http.HandlerFunc {
 			defer file.Close()
 
 			imageName := fmt.Sprintf("%d%s", id, filepath.Ext(header.Filename))
-			filePath := filepath.Join(folder, imageName)
+			filePath := filepath.Join(folderProjects, imageName)
 			savePath := filepath.Join(initialPath, filePath)
 
 			// Crear archivo en disco

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Administración</title>
+    <link rel="stylesheet" href="/static/css/admin.css" />
+    <link rel="icon" type="image/svg+xml" href="/static/assets/images/logos/code.svg">
+</head>
+
+<body>
+    <nav class="admin-nav">
+        <h1>Panel de Administración</h1>
+        <ul>
+            <li><a href="/admin/personal">Información Personal</a></li>
+            <li><a href="/admin/articles">Artículos</a></li>
+            <li><a href="/admin/projects">Proyectos</a></li>
+        </ul>
+    </nav>
+    <main>
+        <h2>{{if .Url}}Editar{{else}}Crear{{end}} Artículo</h2>
+
+        <form action="{{if .Url}}/admin/articles/edit{{else}}/admin/articles/new{{end}}" method="POST"
+            enctype="multipart/form-data">
+            {{if .Url}}
+            <label for="url-actual">URL actual:</label>
+            <input name="url-actual" value="{{.Url}}" readonly>            
+            {{end}}
+
+            <label>URL:</label>
+            <input type="text" name="url" value="{{.Url}}" required>
+
+            <label>Título:</label>
+            <input type="text" name="title" value="{{.Title}}" required>
+
+            <label>Descripción:</label>
+            <input type="text" name="description" value="{{.Description}}" required>
+
+            <label>Contenido:</label>
+            <textarea name="content" required>{{.Content}}</textarea>
+
+            <input type="hidden" name="image-path" value="{{.Image}}">
+
+            <label>Imagen:</label>
+            <input type="file" name="image">
+
+            <button type="submit">{{if .Url}}Actualizar{{else}}Crear{{end}}</button>
+        </form>
+        {{if .Image}}
+        <p>Imagen actual: <img src="{{.Image}}" height="80"></p>
+        {{end}}
+    </main>
+</body>
+
+</html>

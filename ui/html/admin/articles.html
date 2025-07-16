@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Administración</title>
+    <link rel="stylesheet" href="/static/css/admin.css" />
+    <link rel="icon" type="image/svg+xml" href="/static/assets/images/logos/code.svg">
+</head>
+
+<body>
+    <nav class="admin-nav">
+        <h1>Panel de Administración</h1>
+        <ul>
+            <li><a href="/admin/personal">Información Personal</a></li>
+            <li><a href="/admin/articles">Artículos</a></li>
+            <li><a href="/admin/projects">Proyectos</a></li>
+        </ul>
+    </nav>
+    <main>
+        <h1>Panel de Artículos</h1>
+        <a href="/admin/articles/new">+ Nuevo artículo</a>
+
+        <table>
+            <tr>
+                <th>Título</th>
+                <th>URL</th>
+                <th>Fecha</th>
+                <th>Acciones</th>
+            </tr>
+            {{range .}}
+            <tr>
+                <td>{{.Title}}</td>
+                <td>{{.Url}}</td>
+                <td>{{.CreatedAt.Format "2006-01-02"}}</td>
+                <td>
+                    <a href="/admin/articles/edit?url={{.Url}}">Editar</a>
+                    <form action="/admin/articles/delete" method="POST" style="display:inline">
+                        <input type="hidden" name="url" value="{{.Url}}">
+                        <button type="submit" onclick="return confirm('¿Eliminar este artículo?')">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {{end}}
+        </table>
+    </main>
+</body>
+
+</html>

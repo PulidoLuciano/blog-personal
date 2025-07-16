@@ -8,3 +8,10 @@ config/config.yaml
 [0-9]*.bmp
 [0-9]*.tiff
 [0-9]*.ico
+ui/static/assets/images/articles/*.webp
+ui/static/assets/images/articles/*.png
+ui/static/assets/images/articles/*.jpg
+ui/static/assets/images/articles/*.jpeg
+ui/static/assets/images/articles/*.gif
+ui/static/assets/images/articles/*.bmp
+ui/static/assets/images/articles/*.tiff
