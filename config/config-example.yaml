@@ -1,0 +1,16 @@
+# Copiar contenido en config.yaml y cambiar los valores de las variables
+
+server:
+  host: "0.0.0.0"
+  port: 8080
+
+database:
+  host: "localhost"
+  port: 3306
+  user: "usuario_blog"
+  password: "clave_segura"
+  name: "blog_db"
+
+admin:
+  username: "admin"
+  password: "admin"

@@ -1,27 +1,47 @@
 package main
 
 import (
-	"database/sql"
+	"blog-personal/internal/utils"
 	"fmt"
 	"log"
-
-	_ "github.com/go-sql-driver/mysql"
+	"net/http"
 )
 
 func main() {
-	// Reemplazá estos valores por los correctos
-	dsn := "webuser:webpassword@tcp(172.16.90.131:3306)/blog"
-
-	db, err := sql.Open("mysql", dsn)
+	// Cargar configuración
+	cfg, err := utils.LoadConfig("config/config.yaml")
 	if err != nil {
-		log.Fatalf("Error al abrir conexión: %s", err)
+		log.Fatalf("Error al cargar configuración: %v", err)
 	}
 
-	// Ping con timeout de red
-	err = db.Ping()
+	// Conectar a la base de datos
+	db, err := utils.ConnectDatabase(cfg)
 	if err != nil {
-		log.Fatalf("No se pudo conectar a la base de datos: %s", err)
+		log.Fatalf("Error al conectar a la base de datos: %v", err)
+	}
+	defer db.Close()
+
+	// Aplicar script SQL
+	if err := utils.ApplyMigrations(db, "migrations/"); err != nil {
+		log.Fatalf("Error al ejecutar las migraciones: %v", err)
 	}
 
-	fmt.Println("Conexión exitosa a MariaDB")
+	// Crear usuario administrador
+	if err := utils.CreateAdminUser(db, cfg); err != nil {
+		log.Fatalf("Error al crear usuario administrador: %v", err)
+	}
+
+	// Iniciar servidor HTTP
+	addr := fmt.Sprintf("%s:%d", cfg.Server.Host, cfg.Server.Port)
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w, "¡Blog personal corriendo en Go y MySQL!")
+	})
+
+	fs := http.FileServer(http.Dir("ui/static/"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
+
+	if err := http.ListenAndServe(addr, nil); err != nil {
+		log.Fatalf("Error al iniciar servidor HTTP: %v", err)
+	}
+	fmt.Printf("Servidor HTTP iniciado en http://%s\n", addr)
 }
