@@ -6,4 +6,6 @@ type Project struct {
 	Description   string
 	UrlRepository string
 	UrlWebsite    string
+	Image         string
+	IsHidden      bool
 }

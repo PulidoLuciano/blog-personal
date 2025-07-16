@@ -4,5 +4,7 @@ CREATE TABLE IF NOT EXISTS projects (
     title VARCHAR(255) NOT NULL,
     description TEXT,
     url_repository VARCHAR(255),
-    url_website VARCHAR(255)
+    url_website VARCHAR(255),
+    image VARCHAR(255),
+    is_hidden BOOLEAN DEFAULT FALSE
 );

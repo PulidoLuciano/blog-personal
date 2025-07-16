@@ -7,5 +7,6 @@ type Article struct {
 	Title     string
 	Content   string
 	CreatedAt time.Time
+	Image     string
 	Author    User
 }

@@ -1,0 +1,118 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/code.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .PageTitle }}</title>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="root" class="bg-tertiary min-h-screen relative">
+        <header class="bg-primary-light flex justify-center z-50 sticky top-0">
+            <div class="flex items-center justify-between py-2 px-2 max-w-screen-laptopL w-full text-tertiary text-lg">
+                <div>
+                    <a href="/">
+                        <h1 class="font-bold">{{ .PersonalInfo.FullName }}</h1>
+                    </a>
+                </div>
+                <nav class="flex gap-5 items-center">
+                    <a href="/" class="hidden laptop:block hover:text-white">Sobre mí</a>
+                    <a href="/articles" class="hover:text-white">Artículos</a>
+                    <a href="/login" class="hidden laptop:block bg-secondary-light font-semibold hover:bg-secondary-dark py-1 px-3 rounded-2xl text-black">Iniciar sesión</a>
+                </nav>
+            </div>
+        </header>
+        <main class="scroll-smooth">
+            <section class="h-[75vh] flex flex-col justify-center p-2 select-none">
+                <div class="max-w-screen-mobileS laptop:max-w-screen-tablet m-auto w-full flex justify-center gap-6 items-center">
+                    <img src="{{ .PersonalInfo.ProfileImage }}" alt="Me in a photo" class="hidden laptop:block laptop:size-60 rounded-full shadow-xl">
+                    <div>
+                        <h1 class="text-4xl">¡Bienvenido!</h1>
+                        <h1 class="text-4xl">Soy <strong class="text-secondary-dark">{{ .PersonalInfo.FullName }}</strong></h1>
+                        <h1 class="text-4xl text-primary-dark"><em>{{ .PersonalInfo.Description }}</em></h1>
+                        <div class="flex gap-4 mt-4">
+                            <a href="{{ .PersonalInfo.X }}" target="_blank" referrerpolicy="no-referrer">
+                                <img src="/static/assets/images/logos/x.svg" alt="X's icon" class="size-8 invert hover:brightness-110">
+                            </a>
+                            <a href="{{ .PersonalInfo.GitHub }}" target="_blank" referrerpolicy="no-referrer">
+                                <img src="/static/assets/images/logos/github.svg" alt="Github's icon" class="size-8 invert hover:brightness-110">
+                            </a>
+                            <a href="{{ .PersonalInfo.LinkedIn }}" target="_blank" referrerpolicy="no-referrer">
+                                <img src="/static/assets/images/logos/linkedIn.svg" alt="LinkedIn's icon" class="size-8 invert hover:brightness-110">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="flex flex-col justify-center p-2 select-none bg-primary-dark py-16">
+                <div class="max-w-screen-mobileS laptop:max-w-screen-tablet m-auto w-full">
+                    <h1 class="text-tertiary font-bold text-2xl pb-2">Sobre mí</h1>
+                    <div class="text-tertiary py-1 text-pretty">{{ .PersonalInfo.Bio }}</div>
+                </div>
+            </section>
+            <section class="flex flex-col justify-center p-2 select-none bg-secondary-dark py-16" id="projects">
+                <div class="max-w-screen-mobileS laptop:max-w-screen-tablet m-auto w-full">
+                    <h1 class="text-tertiary font-bold text-2xl pb-2">Algunos de mis proyectos</h1>
+                    {{ range .Projects }}
+                        <article class="bg-tertiary rounded-xl p-4 shadow-xl flex justify-between items-center gap-4 my-4">
+                            <div>
+                                <h2 class="font-semibold text-primary-dark text-xl pb-2">{{ .Title }}</h2>
+                                <p class="pb-3 text-balance">{{ .Description }}</p>
+                                <div class="flex gap-4">
+                                    <a href="{{ .UrlRepository }}" class="size-8" target="_blank" referrerpolicy="no-referrer">
+                                        <img src="/static/assets/images/logos/github.svg" alt="GitHub's icon" class="invert size-8">
+                                    </a>
+                                    <a href="{{ .UrlWebsite }}" target="_blank" referrerpolicy="no-referrer" 
+                                    class="py-1 px-8 text-center bg-secondary-light rounded-lg font-semibold">Visitar</a>
+                                </div>
+                            </div>
+                            <img src="{{ .Image }}" alt="{{ .Title }} screenshot" class="h-36 hidden rounded-md laptop:block">
+                        </article>
+                    {{ end }}
+                </div>
+            </section>
+            <section class="flex flex-col justify-center p-2 select-none py-16" id="articles">
+                <div class="max-w-screen-mobileS laptop:max-w-screen-tablet m-auto w-full">
+                    <h1 class="text-primary-dark font-bold text-2xl pb-2">Mira mis artículos</h1>
+                    <div class="flex flex-col laptop:flex-row laptop:justify-between gap-4 items-center">
+                        {{ range .Articles }}
+                            <a href="/articles/{{ .Url }}" class="inline-block w-60 h-auto bg-tertiary rounded-xl pb-4 shadow-xl">
+                                <img src="{{ .Image }}" alt="{{ .Title }} screenshot" class="max-w-full min-w-60 aspect-video"/>
+                                <p class="text-lg font-semibold text-pretty p-2">{{ .Title }}</p>
+                            <p class="px-2">{{ .CreatedAt.Format "02/01/2006" }}</p>
+                        </a>
+                    {{ end }}
+                    </div>
+                </div>
+                <a href="/articles" class="text-secondary-dark font-semibold my-4 mx-auto underline">Ver más</a>
+            </section>
+        </main>
+        <footer class="absolute bg-primary-dark bottom-0 w-full z-0">
+            <div class="max-w-screen-laptopL mx-auto flex justify-between items-center flex-col gap-4 laptop:flex-row">
+                <h1 class="font-bold text-tertiary select-none pt-2 laptop:p-0 laptop:pl-4">Luciano Pulido</h1>
+                <div class="flex gap-4"><a href="{{ .PersonalInfo.X }}" target="_blank" referrerpolicy="no-referrer">
+                    <img src="/static/assets/images/logos/x.svg" alt="X's icon" class="size-8 hover:brightness-110">
+                </a>
+                <a href="{{ .PersonalInfo.GitHub }}" target="_blank" referrerpolicy="no-referrer">
+                    <img src="/static/assets/images/logos/github.svg" alt="Github's icon" class="size-8 hover:brightness-110">
+                </a>
+                <a href="{{ .PersonalInfo.LinkedIn }}" target="_blank" referrerpolicy="no-referrer">
+                    <img src="/static/assets/images/logos/linkedIn.svg" alt="LinkedIn's icon" class="size-8 hover:brightness-110">
+                </a>
+            </div>
+                <nav class="bg-primary-dark text-tertiary pb-2 laptop:p-4">
+                    <div class="flex gap-6">
+                        <a href="/" class="hover:text-white">About</a>
+                        <a href="/articles" class="hover:text-white">Articles</a>
+                    </div>
+                    <a href="/login" class="block laptop:hidden my-2 bg-secondary-light font-semibold hover:bg-secondary-dark py-1 px-3 rounded-2xl text-black">Iniciar sesión</a>
+                </nav>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>
