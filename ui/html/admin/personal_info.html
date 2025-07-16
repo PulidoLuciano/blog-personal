@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Administración</title>
+    <link rel="stylesheet" href="/static/css/admin.css" />
+    <link rel="icon" type="image/svg+xml" href="/static/assets/images/logos/code.svg">
+</head>
+
+<body>
+    <nav class="admin-nav">
+        <h1>Panel de Administración</h1>
+        <ul>
+            <li><a href="/admin/personal">Información Personal</a></li>
+            <li><a href="/admin/articles">Artículos</a></li>
+            <li><a href="/admin/projects">Proyectos</a></li>
+        </ul>
+    </nav>
+    <main>
+        <h2>Editar Información Personal</h2>
+        <form method="POST" action="/admin/personal">
+            <label for="id">ID:</label>
+            <input type="text" name="id" value="{{.ID}}" readonly />
+
+            <label>Nombre completo:</label>
+            <input type="text" name="full_name" value="{{.FullName}}" required />
+
+            <label>Descripción:</label>
+            <input type="text" name="description" value="{{.Description}}" />
+
+            <label>Bio:</label>
+            <textarea name="bio">{{.Bio}}</textarea>
+
+            <label>X:</label>
+            <input type="text" name="x" value="{{.X}}" />
+
+            <label>GitHub:</label>
+            <input type="text" name="github" value="{{.GitHub}}" />
+
+            <label>LinkedIn:</label>
+            <input type="text" name="linkedin" value="{{.LinkedIn}}" />
+
+            <button type="submit">Guardar</button>
+        </form>
+    </main>
+</body>
+
+</html>

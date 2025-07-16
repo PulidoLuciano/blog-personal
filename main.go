@@ -2,10 +2,13 @@ package main
 
 import (
 	"blog-personal/internal/handlers"
+	"blog-personal/internal/handlers/admin"
 	"blog-personal/internal/utils"
 	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func main() {
@@ -67,12 +70,17 @@ func main() {
 
 	// Iniciar servidor HTTP
 	addr := fmt.Sprintf("%s:%d", cfg.Server.Host, cfg.Server.Port)
-	http.HandleFunc("/", handlers.HomeHandler(db))
+	router := mux.NewRouter()
+
+	router.HandleFunc("/", handlers.HomeHandler(db))
+	router.HandleFunc("/admin", admin.DashboardHandler)
+	router.HandleFunc("/admin/personal", admin.PersonalInfoGetHandler(db)).Methods("GET")
+	router.HandleFunc("/admin/personal", admin.PersonalInfoPostHandler(db)).Methods("POST")
 
 	fs := http.FileServer(http.Dir("ui/static/"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
+	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", fs))
 
-	if err := http.ListenAndServe(addr, nil); err != nil {
+	if err := http.ListenAndServe(addr, router); err != nil {
 		log.Fatalf("Error al iniciar servidor HTTP: %v", err)
 	}
 	fmt.Printf("Servidor HTTP iniciado en http://%s\n", addr)
