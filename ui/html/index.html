@@ -21,7 +21,6 @@
                 <nav class="flex gap-5 items-center">
                     <a href="/" class="hidden laptop:block hover:text-white">Sobre mí</a>
                     <a href="/articles" class="hover:text-white">Artículos</a>
-                    <a href="/login" class="hidden laptop:block bg-secondary-light font-semibold hover:bg-secondary-dark py-1 px-3 rounded-2xl text-black">Iniciar sesión</a>
                 </nav>
             </div>
         </header>
@@ -53,6 +52,7 @@
                     <div class="text-tertiary py-1 text-pretty">{{ .PersonalInfo.Bio }}</div>
                 </div>
             </section>
+            {{ if len .Projects }}
             <section class="flex flex-col justify-center p-2 select-none bg-secondary-dark py-16" id="projects">
                 <div class="max-w-screen-mobileS laptop:max-w-screen-tablet m-auto w-full">
                     <h1 class="text-tertiary font-bold text-2xl pb-2">Algunos de mis proyectos</h1>
@@ -74,6 +74,8 @@
                     {{ end }}
                 </div>
             </section>
+            {{ end }}
+            {{ if len .Articles }}
             <section class="flex flex-col justify-center p-2 select-none py-16" id="articles">
                 <div class="max-w-screen-mobileS laptop:max-w-screen-tablet m-auto w-full">
                     <h1 class="text-primary-dark font-bold text-2xl pb-2">Mira mis artículos</h1>
@@ -89,6 +91,7 @@
                 </div>
                 <a href="/articles" class="text-secondary-dark font-semibold my-4 mx-auto underline">Ver más</a>
             </section>
+            {{ end }}
         </main>
         <footer class="absolute bg-primary-dark bottom-0 w-full z-0">
             <div class="max-w-screen-laptopL mx-auto flex justify-between items-center flex-col gap-4 laptop:flex-row">
@@ -108,7 +111,6 @@
                         <a href="/" class="hover:text-white">About</a>
                         <a href="/articles" class="hover:text-white">Articles</a>
                     </div>
-                    <a href="/login" class="block laptop:hidden my-2 bg-secondary-light font-semibold hover:bg-secondary-dark py-1 px-3 rounded-2xl text-black">Iniciar sesión</a>
                 </nav>
             </div>
         </footer>
