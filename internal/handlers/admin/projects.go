@@ -75,6 +75,7 @@ func ProjectSave(db *sql.DB) http.HandlerFunc {
 			UrlRepository: r.FormValue("url_repository"),
 			UrlWebsite:    r.FormValue("url_website"),
 			IsHidden:      r.FormValue("is_hidden") == "on",
+			Image:         r.FormValue("image-path"),
 		}
 
 		file, header, err := r.FormFile("image")
@@ -101,8 +102,6 @@ func ProjectSave(db *sql.DB) http.HandlerFunc {
 				log.Println("Error al guardar imagen:", err)
 				return
 			}
-
-			// Guardar ruta relativa en la base de datos
 			p.Image = filePath
 		}
 
