@@ -81,7 +81,7 @@ func main() {
 	router.HandleFunc("/login", handlers.LoginHandler(store, db)).Methods("POST")
 	router.HandleFunc("/login", handlers.LoginForm(store, db)).Methods("GET")
 	router.HandleFunc("/logout", handlers.LogoutHandler(store)).Methods("POST")
-
+	router.HandleFunc("/articles", handlers.ListArticles(db)).Methods("GET")
 	// Admin
 	adminRouter := router.PathPrefix("/admin").Subrouter()
 	adminRouter.Use(middlewares.AuthenticationMiddleware(store), middlewares.AdminMiddleware(store))
