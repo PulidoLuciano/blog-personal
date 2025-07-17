@@ -40,39 +40,6 @@ func main() {
 		log.Fatalf("Error al crear usuario administrador: %v", err)
 	}
 
-	db.Query(`
-		INSERT INTO articles (url, title, description, content, image, author_id) VALUES (
-			'articulo-prueba',
-			"Articulo de prueba",
-			"Descripción de prueba",
-			"Contenido de prueba",
-        '/static/assets/images/projects/sportsCalendar.webp',
-        1
-		);
-	`)
-
-	db.Query(`
-		INSERT INTO articles (url, title, description, content, image, author_id) VALUES (
-			'articulo-prueba-2',
-			"Articulo de prueba 2",
-			"Descripción de prueba 2",
-			"Contenido de prueba 2",
-        '/static/assets/images/projects/sportsCalendar.webp',
-        1
-		);
-	`)
-
-	db.Query(`
-		INSERT INTO articles (url, title, description, content, image, author_id) VALUES (
-			'articulo-prueba-3',
-			"Articulo de prueba 3",
-			"Descripción de prueba 3",
-			"Contenido de prueba 3",
-        '/static/assets/images/projects/sportsCalendar.webp',
-        1
-		);
-	`)
-
 	// Iniciar servidor HTTP
 	addr := fmt.Sprintf("%s:%d", cfg.Server.Host, cfg.Server.Port)
 	router := mux.NewRouter()
