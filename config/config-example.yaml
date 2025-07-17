@@ -14,3 +14,5 @@ database:
 admin:
   username: "admin"
   password: "admin"
+
+secret_key: "secret"

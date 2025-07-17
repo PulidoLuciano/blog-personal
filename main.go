@@ -3,12 +3,14 @@ package main
 import (
 	"blog-personal/internal/handlers"
 	"blog-personal/internal/handlers/admin"
+	"blog-personal/internal/middlewares"
 	"blog-personal/internal/utils"
 	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/gorilla/sessions"
 )
 
 func main() {
@@ -17,6 +19,9 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error al cargar configuración: %v", err)
 	}
+
+	key := []byte(cfg.SecretKey)
+	store := sessions.NewCookieStore(key)
 
 	// Conectar a la base de datos
 	db, err := utils.ConnectDatabase(cfg)
@@ -73,26 +78,34 @@ func main() {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/", handlers.HomeHandler(db))
+	router.HandleFunc("/login", handlers.LoginHandler(store, db)).Methods("POST")
+	router.HandleFunc("/login", handlers.LoginForm(store, db)).Methods("GET")
+	router.HandleFunc("/logout", handlers.LogoutHandler(store)).Methods("POST")
 
 	// Admin
-	router.HandleFunc("/admin", admin.DashboardHandler)
+	adminRouter := router.PathPrefix("/admin").Subrouter()
+	adminRouter.Use(middlewares.AuthenticationMiddleware(store), middlewares.AdminMiddleware(store))
+
+	adminRouter.HandleFunc("", admin.DashboardHandler)
 	// Personal
-	router.HandleFunc("/admin/personal", admin.PersonalInfoGetHandler(db)).Methods("GET")
-	router.HandleFunc("/admin/personal", admin.PersonalInfoPostHandler(db)).Methods("POST")
+	adminRouter.HandleFunc("/personal", admin.PersonalInfoGetHandler(db)).Methods("GET")
+	adminRouter.HandleFunc("/personal", admin.PersonalInfoPostHandler(db)).Methods("POST")
 	// Projects
-	router.HandleFunc("/admin/projects", admin.ProjectsList(db)).Methods("GET")
-	router.HandleFunc("/admin/projects/new", admin.ProjectForm(db)).Methods("GET")
-	router.HandleFunc("/admin/projects/new", admin.ProjectSave(db)).Methods("POST")
-	router.HandleFunc("/admin/projects/edit", admin.ProjectForm(db)).Methods("GET")
-	router.HandleFunc("/admin/projects/edit", admin.ProjectSave(db)).Methods("POST")
-	router.HandleFunc("/admin/projects/delete", admin.ProjectDelete(db)).Methods("POST")
+	adminRouter.HandleFunc("/projects", admin.ProjectsList(db)).Methods("GET")
+	adminRouter.HandleFunc("/projects/new", admin.ProjectForm(db)).Methods("GET")
+	adminRouter.HandleFunc("/projects/new", admin.ProjectSave(db)).Methods("POST")
+	adminRouter.HandleFunc("/projects/edit", admin.ProjectForm(db)).Methods("GET")
+	adminRouter.HandleFunc("/projects/edit", admin.ProjectSave(db)).Methods("POST")
+	adminRouter.HandleFunc("/projects/delete", admin.ProjectDelete(db)).Methods("POST")
 	// Articles
-	router.HandleFunc("/admin/articles", admin.ArticlesList(db)).Methods("GET")
-	router.HandleFunc("/admin/articles/new", admin.ArticleForm(db)).Methods("GET")
-	router.HandleFunc("/admin/articles/new", admin.ArticleSave(db)).Methods("POST")
-	router.HandleFunc("/admin/articles/edit", admin.ArticleForm(db)).Methods("GET")
-	router.HandleFunc("/admin/articles/edit", admin.ArticleSave(db)).Methods("POST")
-	router.HandleFunc("/admin/articles/delete", admin.ArticleDelete(db)).Methods("POST")
+	adminRouter.HandleFunc("/articles", admin.ArticlesList(db)).Methods("GET")
+	adminRouter.HandleFunc("/articles/new", admin.ArticleForm(db)).Methods("GET")
+	adminRouter.HandleFunc("/articles/new", admin.ArticleSave(db)).Methods("POST")
+	adminRouter.HandleFunc("/articles/edit", admin.ArticleForm(db)).Methods("GET")
+	adminRouter.HandleFunc("/articles/edit", admin.ArticleSave(db)).Methods("POST")
+	adminRouter.HandleFunc("/articles/delete", admin.ArticleDelete(db)).Methods("POST")
+
+	// Authentication
 
 	fs := http.FileServer(http.Dir("ui/static/"))
 	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", fs))

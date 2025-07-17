@@ -29,6 +29,7 @@ type Config struct {
 		Username string `yaml:"username"`
 		Password string `yaml:"password"`
 	} `yaml:"admin"`
+	SecretKey string `yaml:"secret_key"`
 }
 
 func LoadConfig(path string) (*Config, error) {
