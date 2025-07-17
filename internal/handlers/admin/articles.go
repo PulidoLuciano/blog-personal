@@ -73,7 +73,7 @@ func ArticleSave(db *sql.DB) http.HandlerFunc {
 		if err == nil && header.Filename != "" {
 			defer file.Close()
 
-			imageName := fmt.Sprintf("%s%s", currentUrl, filepath.Ext(header.Filename))
+			imageName := fmt.Sprintf("%s%s", a.Url, filepath.Ext(header.Filename))
 			filePath := filepath.Join(folderArticles, imageName)
 			savePath := filepath.Join(initialPath, filePath)
 
@@ -105,7 +105,7 @@ func ArticleSave(db *sql.DB) http.HandlerFunc {
 			}
 		} else {
 			if currentUrl != "" {
-				os.Rename(filepath.Join(initialPath, folderArticles, currentUrl), filepath.Join(initialPath, folderArticles, a.Url))
+				os.Remove(filepath.Join(initialPath, folderArticles, currentUrl))
 				_, err := db.Exec(`DELETE FROM articles WHERE url = ?`, currentUrl)
 				if err != nil {
 					http.Error(w, "Error al eliminar", http.StatusInternalServerError)
