@@ -8,6 +8,8 @@ import (
 	"math"
 	"net/http"
 	"strconv"
+
+	"github.com/gorilla/mux"
 )
 
 func ListArticles(db *sql.DB) func(w http.ResponseWriter, r *http.Request) {
@@ -119,5 +121,71 @@ func ListArticles(db *sql.DB) func(w http.ResponseWriter, r *http.Request) {
 			log.Printf("Error al ejecutar el template %v", err)
 			return
 		}
+	}
+}
+
+func Article(db *sql.DB) func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		vars := mux.Vars(r)
+		url := vars["article-id"]
+		if url == "" {
+			http.Error(w, "URL no válida", http.StatusBadRequest)
+			return
+		}
+
+		var article models.Article
+		err := db.QueryRow(`
+			SELECT url, title, description, content, created_at, image 
+			FROM articles 
+			WHERE url = ?`, url).Scan(&article.Url, &article.Title, &article.Description, &article.Content, &article.CreatedAt, &article.Image)
+		if err != nil {
+			http.Error(w, "Error al obtener el artículo", http.StatusInternalServerError)
+			return
+		}
+
+		var info models.PersonalInfo
+		err = db.QueryRow(`SELECT full_name, x, github, linkedin FROM personal_info LIMIT 1`).
+			Scan(&info.FullName, &info.X, &info.GitHub, &info.LinkedIn)
+		if err != nil {
+			http.Error(w, "No se pudo obtener la información personal", http.StatusInternalServerError)
+			return
+		}
+
+		// Obtener artículos
+		rows, err := db.Query(`
+				SELECT url, title, created_at, image
+				FROM articles 
+				WHERE url != ?
+				ORDER BY created_at DESC 
+				LIMIT 3`, url)
+		if err != nil {
+			http.Error(w, "Error al obtener artículos", http.StatusInternalServerError)
+			log.Println(err)
+			return
+		}
+		defer rows.Close()
+
+		var articles []models.Article
+		for rows.Next() {
+			var a models.Article
+			if err := rows.Scan(&a.Url, &a.Title, &a.CreatedAt, &a.Image); err == nil {
+				articles = append(articles, a)
+			}
+		}
+
+		data := struct {
+			PageTitle    string
+			Article      models.Article
+			PersonalInfo models.PersonalInfo
+			Articles     []models.Article
+		}{
+			PageTitle:    "Artículo",
+			Article:      article,
+			PersonalInfo: info,
+			Articles:     articles,
+		}
+
+		tmpl := template.Must(template.ParseFiles("ui/html/article.html"))
+		tmpl.Execute(w, data)
 	}
 }
