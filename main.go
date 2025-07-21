@@ -77,7 +77,7 @@ func main() {
 	// Authentication
 
 	fs := http.FileServer(http.Dir("ui/static/"))
-	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", fs))
+	router.PathPrefix("/estatico/").Handler(http.StripPrefix("/estatico/", fs))
 
 	if err := http.ListenAndServe(addr, router); err != nil {
 		log.Fatalf("Error al iniciar servidor HTTP: %v", err)
