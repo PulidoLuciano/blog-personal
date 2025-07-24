@@ -63,7 +63,7 @@ func ArticleSave(db *sql.DB) http.HandlerFunc {
 			Url:         r.FormValue("url"),
 			Title:       r.FormValue("title"),
 			Description: r.FormValue("description"),
-			Content:     r.FormValue("content"),
+			Content:     template.HTML(r.FormValue("content")),
 			Image:       r.FormValue("image-path"),
 			AuthorId:    1,
 		}
