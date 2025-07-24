@@ -3,7 +3,6 @@ package admin
 import (
 	"blog-personal/internal/models"
 	"database/sql"
-	"fmt"
 	"html/template"
 	"io"
 	"log"
@@ -73,7 +72,7 @@ func ArticleSave(db *sql.DB) http.HandlerFunc {
 		if err == nil && header.Filename != "" {
 			defer file.Close()
 
-			imageName := fmt.Sprintf("%s%s", a.Url, filepath.Ext(header.Filename))
+			imageName := a.Url
 			filePath := filepath.Join(folderArticles, imageName)
 			savePath := filepath.Join(initialPath, filePath)
 

@@ -2,11 +2,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/svg+xml" href="/static/assets/images/logos/code.svg">
+    <link rel="icon" type="image/svg+xml" href="/static/assets/images/logos/code">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ .PageTitle }}</title>
-    <link href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" rel="stylesheet">
-    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="/static/css/style" rel="stylesheet">
 </head>
 
 <body>
@@ -34,13 +33,13 @@
                         <h1 class="text-4xl text-primary-dark"><em>{{ .PersonalInfo.Description }}</em></h1>
                         <div class="flex gap-4 mt-4">
                             <a href="{{ .PersonalInfo.X }}" target="_blank" referrerpolicy="no-referrer">
-                                <img src="/static/assets/images/logos/x.svg" alt="X's icon" class="size-8 invert hover:brightness-110">
+                                <img src="/static/assets/images/logos/x" alt="X's icon" class="size-8 invert hover:brightness-110">
                             </a>
                             <a href="{{ .PersonalInfo.GitHub }}" target="_blank" referrerpolicy="no-referrer">
-                                <img src="/static/assets/images/logos/github.svg" alt="Github's icon" class="size-8 invert hover:brightness-110">
+                                <img src="/static/assets/images/logos/github" alt="Github's icon" class="size-8 invert hover:brightness-110">
                             </a>
                             <a href="{{ .PersonalInfo.LinkedIn }}" target="_blank" referrerpolicy="no-referrer">
-                                <img src="/static/assets/images/logos/linkedIn.svg" alt="LinkedIn's icon" class="size-8 invert hover:brightness-110">
+                                <img src="/static/assets/images/logos/linkedIn" alt="LinkedIn's icon" class="size-8 invert hover:brightness-110">
                             </a>
                         </div>
                     </div>
@@ -63,7 +62,7 @@
                                 <p class="pb-3 text-balance">{{ .Description }}</p>
                                 <div class="flex gap-4">
                                     <a href="{{ .UrlRepository }}" class="size-8" target="_blank" referrerpolicy="no-referrer">
-                                        <img src="/static/assets/images/logos/github.svg" alt="GitHub's icon" class="invert size-8">
+                                        <img src="/static/assets/images/logos/github" alt="GitHub's icon" class="invert size-8">
                                     </a>
                                     <a href="{{ .UrlWebsite }}" target="_blank" referrerpolicy="no-referrer" 
                                     class="py-1 px-8 text-center bg-secondary-light rounded-lg font-semibold">Visitar</a>
@@ -97,13 +96,13 @@
             <div class="max-w-screen-laptopL mx-auto flex justify-between items-center flex-col gap-4 laptop:flex-row">
                 <h1 class="font-bold text-tertiary select-none pt-2 laptop:p-0 laptop:pl-4">Luciano Pulido</h1>
                 <div class="flex gap-4"><a href="{{ .PersonalInfo.X }}" target="_blank" referrerpolicy="no-referrer">
-                    <img src="/static/assets/images/logos/x.svg" alt="X's icon" class="size-8 hover:brightness-110">
+                    <img src="/static/assets/images/logos/x" alt="X's icon" class="size-8 hover:brightness-110">
                 </a>
                 <a href="{{ .PersonalInfo.GitHub }}" target="_blank" referrerpolicy="no-referrer">
-                    <img src="/static/assets/images/logos/github.svg" alt="Github's icon" class="size-8 hover:brightness-110">
+                    <img src="/static/assets/images/logos/github" alt="Github's icon" class="size-8 hover:brightness-110">
                 </a>
                 <a href="{{ .PersonalInfo.LinkedIn }}" target="_blank" referrerpolicy="no-referrer">
-                    <img src="/static/assets/images/logos/linkedIn.svg" alt="LinkedIn's icon" class="size-8 hover:brightness-110">
+                    <img src="/static/assets/images/logos/linkedIn" alt="LinkedIn's icon" class="size-8 hover:brightness-110">
                 </a>
             </div>
                 <nav class="bg-primary-dark text-tertiary pb-2 laptop:p-4">

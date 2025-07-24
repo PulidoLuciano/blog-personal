@@ -1,31 +1,33 @@
-<!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <title>Panel de Administración</title>
-    <link rel="stylesheet" href="/static/css/admin.css" />
-    <link rel="icon" type="image/svg+xml" href="/static/assets/images/logos/code.svg">
+    <link rel="stylesheet" href="/static/css/style" />
+    <link rel="stylesheet" href="/static/css/admin" />
+    <link rel="icon" type="image/svg+xml" href="/static/assets/images/logos/code">
 </head>
 
-<body>
-    <nav class="admin-nav">
-        <h1>Panel de Administración</h1>
-        <ul>
+<body class="bg-tertiary min-h-screen relative">
+    <nav class="w-screen bg-primary-dark text-tertiary pb-2 laptop:p-4 flex gap-4 flex-col laptop:flex-row justify-between laptop:items-center">
+        <h1 class="text-2xl font-bold">Panel de Administración</h1>
+        <ul class="flex gap-8 items-center flex-col laptop:flex-row">
             <li><a href="/admin/personal">Información Personal</a></li>
             <li><a href="/admin/articles">Artículos</a></li>
             <li><a href="/admin/projects">Proyectos</a></li>
             <li><a href="/">Página principal</a></li>
             <li>
-                <form action="/logout" method="POST">
-                    <button type="submit">Cerrar sesión</button>
+                <form action="/logout" method="POST" class="my-auto">
+                    <button type="submit" class="text-primary-dark font-bold bg-secondary-light rounded-lg px-4 py-2">Cerrar sesión</button>
                 </form>
             </li>
         </ul>
     </nav>
     <main>
-        <h1>Proyectos</h1>
-        <a href="/admin/projects/new" class="btn">Nuevo Proyecto</a>
+        <div class="flex justify-between items-center">
+            <h1>Proyectos</h1>
+            <a href="/admin/projects/new" class="btnNew">Nuevo Proyecto</a>
+        </div>
 
         <table>
             <thead>
@@ -44,7 +46,7 @@
                     <td><a href="{{.UrlRepository}}" target="_blank">Repo</a></td>
                     <td><a href="{{.UrlWebsite}}" target="_blank">Web</a></td>
                     <td>{{if .IsHidden}}Sí{{else}}No{{end}}</td>
-                    <td>
+                    <td class="actions">
                         <a href="/admin/projects/edit?id={{.ID}}" class="btn">Editar</a>
                         <form method="POST" action="/admin/projects/delete" style="display:inline;">
                             <input type="hidden" name="id" value="{{.ID}}">

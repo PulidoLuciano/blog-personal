@@ -82,7 +82,7 @@ func ProjectSave(db *sql.DB) http.HandlerFunc {
 		if err == nil && header.Filename != "" {
 			defer file.Close()
 
-			imageName := fmt.Sprintf("%d%s", id, filepath.Ext(header.Filename))
+			imageName := fmt.Sprintf("%d", id)
 			filePath := filepath.Join(folderProjects, imageName)
 			savePath := filepath.Join(initialPath, filePath)
 

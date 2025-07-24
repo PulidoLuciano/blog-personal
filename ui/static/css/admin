@@ -1,0 +1,106 @@
+  main {
+    padding: 2rem;
+    max-width: 70%;
+    margin: auto;
+  }
+
+  @media (max-width: 768px) {
+    main {
+      max-width: 90%;
+    }
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
+  .btnNew {
+    background-color: rgb(96 108 56);
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    max-width: 600px;
+    margin: auto 0;
+  }
+
+  table {
+    margin: 1rem auto;
+    min-width: 90%;
+    max-width: 90%;
+    border-collapse: collapse;
+  }
+
+  table th,
+  table td {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+  }
+
+  input,
+  textarea {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  label {
+    font-weight: bold;
+  }
+
+  form button {
+    background-color: rgb(96 108 56);
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  .secondary {
+    background-color: #ca3b28;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    margin: auto;
+  }
+
+  .actions a {
+    background-color: #BC6C25;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    cursor: pointer;
+  }
+
+  table a {
+    text-decoration: underline;
+  }
+
+  .actions button{
+    background-color: #ca3b28;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    cursor: pointer;
+    margin: auto;
+    border-radius: 4px;
+  }
+
+  .actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+  }
